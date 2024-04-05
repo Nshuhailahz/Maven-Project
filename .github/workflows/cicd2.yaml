@@ -35,3 +35,14 @@ jobs:
         run: |
           docker tag myapp:latest shuhailah169/intel169:latest
           docker push shuhailah169/intel169:latest
+
+  deploy:
+    runs-on: self-hosted
+    needs: build
+    steps:
+      - name: clone the repository
+        uses: actions/checkout@v4.1.2
+      - name: Deploy the k8s deployment
+        run: |
+          sudo kubectl apply -f deployment.yml
+          sudo kubectl get pods
